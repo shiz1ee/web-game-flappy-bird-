@@ -7,12 +7,26 @@ class Game {
         this.baseHeight = 720;
         this.ratio = this.height / this.baseHeight;
         this.player = new Player(this);
+        this.gravity;
 
         this.resize(window.innerWidth, window.innerHeight); 
 
         window.addEventListener('resize', e =>{
             console.log(e);
             this.resize(e.currentTarget.innerWidth, e.currentTarget.innerHeight);
+        });
+        // mouse cons
+        this.canvas.addEventListener('mousedown', e => {
+            this.player.flapp();
+        });
+        // keyboard cons
+        window.addEventListener('keydown', e => {
+            console.log(e.key);
+            if (e.key === ' ' || e.key === 'Enter') this.player.flapp();
+        });
+        //touchy touchy cons
+        this.canvas.addEventListener('touchstart', e => {
+            console.log(e);
         });
 
     }
@@ -24,8 +38,8 @@ class Game {
             this.height = this.canvas.height;
             this.ratio = this.height / this.baseHeight;
 
+            this.gravity = 0.155* this.ratio;
             this.player.resize();
-            console.log(this.height, this.baseHeight, this.ratio);
 
     }
     render(){
