@@ -7,7 +7,11 @@ class Game {
         this.baseHeight = 720;
         this.ratio = this.height / this.baseHeight;
         this.player = new Player(this);
+        this.background = new Background(this);
+        this.obstacle = [];
+        this.numberOfObstacles = 10;
         this.gravity;
+        this.speed;
 
         this.resize(window.innerWidth, window.innerHeight); 
 
@@ -39,12 +43,33 @@ class Game {
             this.ratio = this.height / this.baseHeight;
 
             this.gravity = 0.155* this.ratio;
+            this.speed = 3 * this.ratio;
+            this.background.resize();
             this.player.resize();
+            this.createObstacles();
+            this.obstacle.forEach(obstacle => {
+                obstacle.resize();
+            });
 
     }
     render(){
+        this.background.update();
+        this.background.draw();
         this.player.update();
         this.player.draw();
+        this.obstacle.forEach(obstacle => {
+                obstacle.update();
+                obstacle.draw();
+            });
+    }
+    createObstacles(){
+        this.obstacle = [];
+        const firstX  = this.baseHeight * this.ratio;
+        const obstaclespacing = 600 * this.ratio;
+        for (let i = 0; i < this.numberOfObstacles; i++){
+            this.obstacle.push(new Obstacle(this, firstX + i *
+                obstaclespacing));
+        }
     }
 }
 
